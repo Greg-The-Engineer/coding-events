@@ -1,26 +1,20 @@
 package org.launchcode.codingevents.controllers;
 
+import org.launchcode.codingevents.models.Event;
+import org.launchcode.codingevents.models.EventData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("events")
 public class EventController {
 
-    private static final List<String> events = new ArrayList<>();
-
     // handles GET requests at /events
     // the root controller method for this class
     @GetMapping
     public String displayAllEvents(Model model) {
-        model.addAttribute("events", events);
+        model.addAttribute("events", EventData.getAll());
         model.addAttribute("title", "All Events");
         return "events/index";
     }
@@ -34,10 +28,10 @@ public class EventController {
 
     // responds to POST requests at /events/create
     @PostMapping("create")
-    public String processCreateEventForm(@RequestParam String newEvent) {
+    public String processCreateEventForm(@ModelAttribute Event event) {
 
         // "store" the new event
-        events.add(newEvent);
+        EventData.add(event);
 
         // send them back to the main event listing
         // equivalent of sending 302 HTTP response code with Location=/events
