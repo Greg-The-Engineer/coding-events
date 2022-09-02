@@ -8,13 +8,14 @@
 </head>
 <body>
 
-    <header th:fragment="header">
-    <h1 th:text="${title}">Coding Events</h1>
+    <header th:fragment="header" class="row">
 
-        <nav>
-            <ul>
-                <li><a href="/events">All Events</a></li>
-                <li><a href="/events/create">Create New Event</a></li>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light col">
+            <a class="navbar-brand" th:href="@{/}" th:text="${title}">Coding Events</a>
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" th:href="@{/events}">View All</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/events/create}">Create</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/events/delete}">Delete</a></li>
             </ul>
         </nav>
     </header>

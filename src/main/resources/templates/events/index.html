@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
-<body>
+<body  class="container-fluid">
 
 <div th:replace="fragments :: header"></div>
 
-<p th:if="${events.size() == 0}">No events</p>
+<div class="row pt-4">
+    <div class="col">
+        <p th:if="${events.size() == 0}">No events</p>
 
-<table th:if="${events.size() > 0}" class="table table-striped">
-    <thead class="thead-light">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tr th:each="event : ${events}">
-        <td th:text="${event.id}"></td>
-        <td th:text="${event.name}"></td>
-        <td th:text="${event.description}"></td>
-        <td>
-            <a th:href="@{/events/edit/{id}(id=${event.id})}">Edit</a>
-        </td>
-    </tr>
-</table>
-
+        <table th:if="${events.size() > 0}" class="table table-striped">
+            <thead class="thead-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tr th:each="event : ${events}">
+                <td th:text="${event.id}"></td>
+                <td th:text="${event.name}"></td>
+                <td th:text="${event.description}"></td>
+                <td>
+                    <a th:href="@{/events/edit/{id}(id=${event.id})}">Edit</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 </body>
 </html>
