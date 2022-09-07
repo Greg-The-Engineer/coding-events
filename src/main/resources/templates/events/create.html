@@ -7,16 +7,25 @@
 
     <div class="row pt-4">
         <div class="col">
+
             <form method="POST">
                 <div class="form-group">
                     <label>Name
-                        <input class="form-control" name="name" type="text">
+                        <input class="form-control" th:field="${event.name}" type="text">
                     </label>
+                    <p class="error" th:errors="${event.name}"></p>
                 </div>
                 <div class="form-group">
                     <label>Description
-                        <input class="form-control" name="description" type="text">
+                        <input class="form-control" th:field="${event.description}" type="text">
                     </label>
+                    <p class="error" th:errors="${event.description}"></p>
+                </div>
+                <div class="form-group">
+                    <label>Contact Email
+                        <input class="form-control" th:field="${event.contactEmail}" type="email">
+                    </label>
+                    <p class="error" th:errors="${event.contactEmail}"></p>
                 </div>
                 <button class="btn btn-success">Create</button>
             </form>
