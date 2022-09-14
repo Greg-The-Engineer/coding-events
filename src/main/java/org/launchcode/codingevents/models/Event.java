@@ -1,14 +1,20 @@
 package org.launchcode.codingevents.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+@Entity
 public class Event {
 
-    private static int nextId = 1;
+    // configure id to be the PK for this class
+    @Id
+    @GeneratedValue
+    private int id;
 
-    private final int id;
     private EventType type;
 
     @NotBlank(message="Name is required")
@@ -23,17 +29,14 @@ public class Event {
     private String contactEmail;
 
     public Event(String name, String description, String contactEmail, EventType type) {
-        this();
         this.name = name;
         this.description = description;
         this.contactEmail = contactEmail;
         this.type = type;
     }
 
-    public Event() {
-        this.id = nextId;
-        nextId++;
-    }
+    // Hibernate needs no-arg constructors
+    public Event() { }
 
     public String getName() {
         return name;
