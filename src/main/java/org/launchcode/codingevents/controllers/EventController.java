@@ -1,7 +1,9 @@
 package org.launchcode.codingevents.controllers;
 
 import org.launchcode.codingevents.models.Event;
+import org.launchcode.codingevents.models.EventCategory;
 import org.launchcode.codingevents.models.EventType;
+import org.launchcode.codingevents.models.data.EventCategoryRepository;
 import org.launchcode.codingevents.models.data.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,12 +21,28 @@ public class EventController {
     @Autowired
     private EventRepository eventRepository;
 
+    @Autowired
+    private EventCategoryRepository eventCategoryRepository;
+
     // handles GET requests at /events
     // the root controller method for this class
     @GetMapping
-    public String displayAllEvents(Model model) {
-        model.addAttribute("events", eventRepository.findAll());
-        model.addAttribute("title", "All Events");
+    public String displayAllEvents(@RequestParam(required = false) Integer categoryId, Model model) {
+
+        if (categoryId == null) {
+            model.addAttribute("events", eventRepository.findAll());
+            model.addAttribute("title", "All Events");
+        } else {
+            Optional<EventCategory> optionalEventCategory = eventCategoryRepository.findById(categoryId);
+            if (optionalEventCategory.isPresent()) {
+                EventCategory eventCategory = optionalEventCategory.get();
+                model.addAttribute("events", eventCategory.getEvents());
+                model.addAttribute("title", "Events in Category: " + eventCategory.getName());
+            } else {
+                model.addAttribute("title", "Invalid Category ID");
+            }
+        }
+
         return "events/index";
     }
 
@@ -33,7 +51,7 @@ public class EventController {
     public String displayCreateEventForm(Model model) {
         model.addAttribute("title", "Create New Event");
         model.addAttribute("event", new Event());
-        model.addAttribute("types", EventType.values());
+        model.addAttribute("categories", eventCategoryRepository.findAll());
         return "events/create";
     }
 
