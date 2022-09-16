@@ -1,10 +1,9 @@
 package org.launchcode.codingevents.controllers;
 
-import org.launchcode.codingevents.models.Event;
-import org.launchcode.codingevents.models.EventCategory;
-import org.launchcode.codingevents.models.EventType;
+import org.launchcode.codingevents.models.*;
 import org.launchcode.codingevents.models.data.EventCategoryRepository;
 import org.launchcode.codingevents.models.data.EventRepository;
+import org.launchcode.codingevents.models.data.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +22,9 @@ public class EventController {
 
     @Autowired
     private EventCategoryRepository eventCategoryRepository;
+
+    @Autowired
+    private TagRepository tagRepository;
 
     // handles GET requests at /events
     // the root controller method for this class
@@ -121,6 +123,44 @@ public class EventController {
             for (int id : eventIds) {
                 eventRepository.deleteById(id);
             }
+        }
+
+        return "redirect:";
+    }
+
+    @GetMapping("add-tag")
+    public String displayAddTagForm(@RequestParam int eventId, Model model) {
+
+        Optional<Event> optionalEvent = eventRepository.findById(eventId);
+        if (optionalEvent.isEmpty()) {
+            return "redirect:";
+        }
+
+        Event event = optionalEvent.get();
+
+        // put necessary data in the model
+        EventTagDTO dto = new EventTagDTO();
+        dto.setEvent(event);
+        model.addAttribute("dto", dto);
+        model.addAttribute("title", "Add Tag to " + event.getName() + " (" + event.getId() + ")");
+        model.addAttribute("tags", tagRepository.findAll());
+
+        return "events/add-tag";
+    }
+
+    @PostMapping("add-tag")
+    public String processAddTagForm(@ModelAttribute @Valid EventTagDTO eventTagDTO, Errors errors) {
+
+        if (errors.hasErrors()) {
+            return "redirect:";
+        }
+
+        Event event = eventTagDTO.getEvent();
+        Tag tag = eventTagDTO.getTag();
+
+        if (!event.getTags().contains(tag)) {
+            event.addTag(tag);
+            eventRepository.save(event);
         }
 
         return "redirect:";

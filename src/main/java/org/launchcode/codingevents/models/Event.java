@@ -1,11 +1,14 @@
 package org.launchcode.codingevents.models;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Event extends AbstractEntity {
@@ -13,6 +16,9 @@ public class Event extends AbstractEntity {
     @ManyToOne
     @NotNull
     private EventCategory eventCategory;
+
+    @ManyToMany
+    private List<Tag> tags = new ArrayList<>();
 
     @NotBlank(message="Name is required")
     @Size(min = 3, max = 50, message="Name must be between 3 and 50 characters")
@@ -34,6 +40,10 @@ public class Event extends AbstractEntity {
 
     // Hibernate needs no-arg constructors
     public Event() {}
+
+    public void addTag(Tag tag) {
+        this.tags.add(tag);
+    }
 
     public String getDescription() {
         return description;
@@ -65,5 +75,9 @@ public class Event extends AbstractEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
     }
 }

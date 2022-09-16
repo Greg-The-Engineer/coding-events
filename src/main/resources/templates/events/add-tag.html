@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container-fluid">
+
+<div th:replace="fragments :: header"></div>
+
+<div class="row pt-4">
+    <div class="col">
+
+        <form method="POST">
+            <div class="form-group">
+                <label>Tag
+                <select th:field="${dto.tag}">
+                    <option
+                            th:each="tag : ${tags}"
+                            th:value="${tag.id}"
+                            th:text="${tag.name}"></option>
+                </select>
+                </label>
+                <p class="error" th:errors="${dto.tag}"></p>
+            </div>
+            <input type="hidden" th:field="${dto.event}">
+            <button class="btn btn-success">Add</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
