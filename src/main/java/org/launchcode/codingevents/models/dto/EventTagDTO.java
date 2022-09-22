@@ -1,4 +1,7 @@
-package org.launchcode.codingevents.models;
+package org.launchcode.codingevents.models.dto;
+
+import org.launchcode.codingevents.models.Event;
+import org.launchcode.codingevents.models.Tag;
 
 import javax.validation.constraints.NotNull;
 

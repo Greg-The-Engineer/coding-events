@@ -4,6 +4,7 @@ import org.launchcode.codingevents.models.*;
 import org.launchcode.codingevents.models.data.EventCategoryRepository;
 import org.launchcode.codingevents.models.data.EventRepository;
 import org.launchcode.codingevents.models.data.TagRepository;
+import org.launchcode.codingevents.models.dto.EventTagDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
