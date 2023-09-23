@@ -81,3 +81,5 @@ public class Event extends AbstractEntity {
         return tags;
     }
 }
+
+// Chapter 17
